@@ -1,0 +1,556 @@
+[gd_scene load_steps=61 format=2]
+
+[ext_resource path="res://assets/sPlayer_a_strip2.png" type="Texture" id=1]
+[ext_resource path="res://objects/player.gd" type="Script" id=2]
+[ext_resource path="res://assets/sPlayer.png" type="Texture" id=3]
+[ext_resource path="res://assets/sPlayer_r_strip4.png" type="Texture" id=4]
+[ext_resource path="res://assets/sPlayer2.png" type="Texture" id=5]
+[ext_resource path="res://assets/sGun.png" type="Texture" id=6]
+[ext_resource path="res://objects/gun.gd" type="Script" id=7]
+[ext_resource path="res://objects/sword.gd" type="Script" id=8]
+[ext_resource path="res://assets/HolyExplosion_96x96.png" type="Texture" id=9]
+[ext_resource path="res://assets/fonts/AGENCYB.TTF" type="DynamicFontData" id=10]
+[ext_resource path="res://objects/reload.gd" type="Script" id=11]
+[ext_resource path="res://objects/pause.gd" type="Script" id=12]
+[ext_resource path="res://assets/soundeffect/cough 1.wav" type="AudioStream" id=13]
+[ext_resource path="res://objects/save_load.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/Pipoya VFX TimeMagic/480x480/pipo-btleffect213_480.png" type="Texture" id=15]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 0, 0, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 480, 0, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 960, 0, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1440, 0, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1920, 0, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 0, 480, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=7]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1920, 480, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=8]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 0, 960, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=9]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 480, 960, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=10]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 960, 960, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=11]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1440, 960, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=12]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1920, 960, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=13]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 0, 1440, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=14]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 480, 1440, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=15]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 960, 1440, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=16]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1440, 1440, 480, 480 )
+
+[sub_resource type="AtlasTexture" id=17]
+flags = 4
+atlas = ExtResource( 15 )
+region = Rect2( 1920, 1440, 480, 480 )
+
+[sub_resource type="SpriteFrames" id=18]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="Animation" id=19]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=20]
+size = 24
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=21]
+size = 59
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=22]
+size = 22
+font_data = ExtResource( 10 )
+
+[sub_resource type="GDScript" id=23]
+script/source = "extends Node
+
+onready var camera = get_parent()
+var time = 0
+
+func _shake(duration := 0.8, magnitude := 8):
+	
+	while time < duration:
+		time += get_process_delta_time()
+		time = min(time, duration)
+		var offset = Vector2()
+		offset.x = rand_range(-magnitude, magnitude)
+		offset.y = rand_range(-magnitude, magnitude)
+		camera.set_offset(offset)
+		yield(get_tree(), \"idle_frame\")
+	
+	time = 0;
+	camera.set_offset(Vector2.ZERO)
+"
+
+[sub_resource type="Shader" id=24]
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : hint_color = vec4(1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+void fragment(){
+	vec4 color = texture(TEXTURE, UV);
+	color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=25]
+shader = SubResource( 24 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="AtlasTexture" id=26]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=27]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=28]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=29]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=31]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=32]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "idle",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 26 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 27 ) ],
+"loop": true,
+"name": "falling",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "run",
+"speed": 13.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=33]
+radius = 13.6452
+height = 13.0575
+
+[sub_resource type="Animation" id=34]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/flash_modifier")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 0.0, 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=35]
+length = 0.5
+step = 0.125
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.125, 0.25, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ -90.0, -180.0, -270.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=36]
+
+[sub_resource type="CircleShape2D" id=37]
+radius = 52.7632
+
+[sub_resource type="AtlasTexture" id=38]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 1824, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=39]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 1920, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=40]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 2016, 0, 96, 96 )
+
+[sub_resource type="SpriteFrames" id=41]
+animations = [ {
+"frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ) ],
+"loop": true,
+"name": "default",
+"speed": 6.0
+} ]
+
+[sub_resource type="Animation" id=42]
+length = 0.4
+step = 0.028
+tracks/0/type = "value"
+tracks/0/path = NodePath("deflecting:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.028, 0.056, 0.084, 0.112, 0.14, 0.168, 0.196, 0.224, 0.252, 0.28, 0.308, 0.336, 0.364, 0.392 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27 ]
+}
+
+[sub_resource type="DynamicFont" id=43]
+size = 18
+font_data = ExtResource( 10 )
+
+[sub_resource type="Animation" id=44]
+resource_name = "fade"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=45]
+size = 72
+font_data = ExtResource( 10 )
+
+[node name="player" type="KinematicBody2D" groups=[
+"player",
+]]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause" type="Control" parent="CanvasLayer"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -640.0
+margin_top = -360.0
+margin_right = 640.0
+margin_bottom = 360.0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="time_back" type="AnimatedSprite" parent="CanvasLayer/Pause"]
+pause_mode = 2
+visible = false
+position = Vector2( 641.276, 357.923 )
+scale = Vector2( 2.59149, 1.76222 )
+frames = SubResource( 18 )
+
+[node name="save_load" parent="CanvasLayer/Pause" instance=ExtResource( 14 )]
+
+[node name="fade" type="ColorRect" parent="CanvasLayer/Pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fade_to_black" type="AnimationPlayer" parent="CanvasLayer/Pause/fade"]
+anims/fade = SubResource( 19 )
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Pause"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.329412 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="save_complete" type="Label" parent="CanvasLayer/Pause/ColorRect"]
+visible = false
+margin_left = 594.905
+margin_top = 473.679
+margin_right = 722.905
+margin_bottom = 502.679
+custom_fonts/font = SubResource( 20 )
+text = "Save Complete!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/Pause/ColorRect"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -51.0
+margin_top = -30.5
+margin_right = 51.0
+margin_bottom = 30.5
+custom_fonts/font = SubResource( 21 )
+text = "Pause"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load" type="Button" parent="CanvasLayer/Pause/ColorRect"]
+anchor_left = 0.532
+anchor_top = 0.618
+anchor_right = 0.532
+anchor_bottom = 0.626
+margin_left = -49.4702
+margin_top = -26.205
+margin_right = 3.52985
+margin_bottom = 10.035
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load" type="Label" parent="CanvasLayer/Pause/ColorRect/load"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 7.0
+margin_top = -13.5
+margin_right = 47.0
+margin_bottom = 13.5
+custom_fonts/font = SubResource( 22 )
+text = "LOAD"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_bottom = 720
+limit_smoothed = true
+smoothing_enabled = true
+
+[node name="screen_shaker" type="Node" parent="Camera2D"]
+script = SubResource( 23 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 25 )
+frames = SubResource( 32 )
+animation = "run"
+frame = 2
+playing = true
+
+[node name="collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 5.29731 )
+shape = SubResource( 33 )
+
+[node name="gun" type="Sprite" parent="."]
+position = Vector2( 4.0913, 10.5542 )
+scale = Vector2( 0.675543, 1 )
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
+
+[node name="Position2D" type="Position2D" parent="gun"]
+position = Vector2( 13.8245, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/hit = SubResource( 34 )
+anims/roll = SubResource( 35 )
+"anims/roll 2" = SubResource( 35 )
+anims/roll2 = SubResource( 36 )
+
+[node name="sword" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+script = ExtResource( 8 )
+
+[node name="sword_hit" type="CollisionShape2D" parent="sword"]
+shape = SubResource( 37 )
+disabled = true
+
+[node name="glow" type="AnimatedSprite" parent="sword"]
+scale = Vector2( 0.722, 0.731 )
+frames = SubResource( 41 )
+frame = 1
+playing = true
+
+[node name="deflecting" type="Sprite" parent="sword"]
+visible = false
+texture = ExtResource( 9 )
+hframes = 28
+frame = 27
+
+[node name="deflect_anim" type="AnimationPlayer" parent="sword"]
+anims/deflect = SubResource( 42 )
+
+[node name="reload" type="Label" parent="."]
+visible = false
+self_modulate = Color( 0, 1, 0, 1 )
+margin_left = -26.9955
+margin_top = -49.3394
+margin_right = 31.0045
+margin_bottom = -27.3394
+custom_fonts/font = SubResource( 43 )
+text = "Reloading!"
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="player_hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = -5.049
+
+[node name="morreu" type="CanvasLayer" parent="."]
+pause_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="morreu"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="morreu" type="AnimationPlayer" parent="morreu/ColorRect"]
+anims/fade = SubResource( 44 )
+
+[node name="Label" type="Label" parent="morreu/ColorRect"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -101.0
+margin_top = -43.5
+margin_right = 101.0
+margin_bottom = 43.5
+custom_fonts/font = SubResource( 45 )
+text = "MORREU"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="animation_finished" from="CanvasLayer/Pause/time_back" to="CanvasLayer/Pause" method="_on_time_back_animation_finished"]
+[connection signal="animation_finished" from="CanvasLayer/Pause/fade/fade_to_black" to="CanvasLayer/Pause" method="_on_fade_to_black_animation_finished"]
+[connection signal="pressed" from="CanvasLayer/Pause/ColorRect/load" to="CanvasLayer/Pause" method="_on_load_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="sword/deflect_anim" to="sword" method="_on_deflect_anim_animation_finished"]
+[connection signal="animation_finished" from="morreu/ColorRect/morreu" to="." method="_on_morreu_animation_finished"]

@@ -1,0 +1,218 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://objects/player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/wall.png" type="Texture" id=2]
+[ext_resource path="res://objects/enemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/rounded square.png" type="Texture" id=4]
+[ext_resource path="res://objects/torret.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/HUD.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/powerup_roll.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/powerup_deflect.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/powerup_max_ammo.tscn" type="PackedScene" id=9]
+[ext_resource path="res://objects/enemy_int.tscn" type="PackedScene" id=10]
+[ext_resource path="res://objects/pathfinder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://objects/boss.tscn" type="PackedScene" id=12]
+[ext_resource path="res://objects/pause.tscn" type="PackedScene" id=13]
+
+[sub_resource type="ConvexPolygonShape2D" id=1]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="ConvexPolygonShape2D" id=3]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="TileSet" id=4]
+0/name = "rounded square.png 0"
+0/texture = ExtResource( 4 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 1 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 1 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 2 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 3 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="ConvexPolygonShape2D" id=5]
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+
+[sub_resource type="TileSet" id=6]
+0/name = "wall.png 0"
+0/texture = ExtResource( 2 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 5 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 5 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : hint_color = vec4(1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+void fragment(){
+	vec4 color = texture(TEXTURE, UV);
+	color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="ShaderMaterial" id=9]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="ShaderMaterial" id=10]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="ShaderMaterial" id=11]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="ShaderMaterial" id=12]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[sub_resource type="ShaderMaterial" id=13]
+resource_local_to_scene = true
+shader = SubResource( 7 )
+shader_param/flash_color = Color( 1, 1, 1, 1 )
+shader_param/flash_modifier = 0.0
+
+[node name="Game" type="Node2D"]
+
+[node name="pause" parent="." instance=ExtResource( 13 )]
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 6 )]
+
+[node name="wall" type="TileMap" parent="." groups=[
+"wall",
+]]
+tile_set = SubResource( 4 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 8
+collision_mask = 0
+format = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 6 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 8
+collision_mask = 5
+format = 1
+tile_data = PoolIntArray( -262066, 0, 0, -196530, 0, 0, -130994, 0, 0, -65458, 0, 0, 0, 0, 0, 78, 0, 0, 118, 0, 0, 65536, 0, 0, 65614, 0, 0, 65654, 0, 0, 131072, 0, 0, 131150, 0, 0, 131190, 0, 0, 196608, 0, 0, 196686, 0, 0, 196726, 0, 0, 262144, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 262164, 0, 0, 262222, 0, 0, 262262, 0, 0, 327680, 0, 0, 327758, 0, 0, 327798, 0, 0, 393216, 0, 0, 393294, 0, 0, 393334, 0, 0, 458752, 0, 0, 458830, 0, 0, 458870, 0, 0, 524288, 0, 0, 524366, 0, 0, 524406, 0, 0, 589824, 0, 0, 589902, 0, 0, 589942, 0, 0, 655360, 0, 0, 655438, 0, 0, 655478, 0, 0, 720896, 0, 0, 720920, 0, 0, 720921, 0, 0, 720922, 0, 0, 720923, 0, 0, 720924, 0, 0, 720974, 0, 0, 721014, 0, 0, 786432, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786510, 0, 0, 786550, 0, 0, 851968, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 852046, 0, 0, 852086, 0, 0, 917504, 0, 0, 917622, 0, 0, 983040, 0, 0, 983113, 0, 0, 983158, 0, 0, 1048576, 0, 0, 1048607, 0, 0, 1048641, 0, 0, 1048642, 0, 0, 1048643, 0, 0, 1048644, 0, 0, 1048645, 0, 0, 1048646, 0, 0, 1048647, 0, 0, 1048648, 0, 0, 1048649, 0, 0, 1048694, 0, 0, 1179647, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 0, 0, 1114115, 0, 0, 1114116, 0, 0, 1114117, 0, 0, 1114118, 0, 0, 1114119, 0, 0, 1114120, 0, 0, 1114121, 0, 0, 1114122, 0, 0, 1114123, 0, 0, 1114124, 0, 0, 1114125, 0, 0, 1114126, 0, 0, 1114127, 0, 0, 1114128, 0, 0, 1114129, 0, 0, 1114130, 0, 0, 1114131, 0, 0, 1114132, 0, 0, 1114133, 0, 0, 1114134, 0, 0, 1114135, 0, 0, 1114136, 0, 0, 1114137, 0, 0, 1114138, 0, 0, 1114139, 0, 0, 1114140, 0, 0, 1114141, 0, 0, 1114142, 0, 0, 1114143, 0, 0, 1114144, 0, 0, 1114145, 0, 0, 1114146, 0, 0, 1114147, 0, 0, 1114148, 0, 0, 1114149, 0, 0, 1114152, 0, 0, 1114153, 0, 0, 1114154, 0, 0, 1114155, 0, 0, 1114156, 0, 0, 1114157, 0, 0, 1114158, 0, 0, 1114159, 0, 0, 1114160, 0, 0, 1114161, 0, 0, 1114162, 0, 0, 1114163, 0, 0, 1114164, 0, 0, 1114165, 0, 0, 1114166, 0, 0, 1114167, 0, 0, 1114168, 0, 0, 1114169, 0, 0, 1114170, 0, 0, 1114171, 0, 0, 1114172, 0, 0, 1114173, 0, 0, 1114174, 0, 0, 1114175, 0, 0, 1114176, 0, 0, 1114177, 0, 0, 1114185, 0, 0, 1114230, 0, 0, 1245183, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1179672, 0, 0, 1179673, 0, 0, 1179674, 0, 0, 1179675, 0, 0, 1179676, 0, 0, 1179677, 0, 0, 1179678, 0, 0, 1179679, 0, 0, 1179680, 0, 0, 1179721, 0, 0, 1179766, 0, 0, 1245257, 0, 0, 1245302, 0, 0, 1310793, 0, 0, 1310794, 0, 0, 1310838, 0, 0, 1376330, 0, 0, 1376374, 0, 0, 1441866, 0, 0, 1441867, 0, 0, 1441868, 0, 0, 1441869, 0, 0, 1441870, 0, 0, 1441871, 0, 0, 1441872, 0, 0, 1441873, 0, 0, 1441874, 0, 0, 1441875, 0, 0, 1441876, 0, 0, 1441877, 0, 0, 1441878, 0, 0, 1441879, 0, 0, 1441880, 0, 0, 1441881, 0, 0, 1441882, 0, 0, 1441883, 0, 0, 1441884, 0, 0, 1441885, 0, 0, 1441886, 0, 0, 1441887, 0, 0, 1441888, 0, 0, 1441889, 0, 0, 1441890, 0, 0, 1441891, 0, 0, 1441892, 0, 0, 1441893, 0, 0, 1441894, 0, 0, 1441895, 0, 0, 1441896, 0, 0, 1441897, 0, 0, 1441898, 0, 0, 1441899, 0, 0, 1441900, 0, 0, 1441901, 0, 0, 1441902, 0, 0, 1441903, 0, 0, 1441904, 0, 0, 1441905, 0, 0, 1441906, 0, 0, 1441907, 0, 0, 1441908, 0, 0, 1441909, 0, 0, 1441910, 0, 0 )
+
+[node name="player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 453.176, 355.739 )
+
+[node name="powerup_roll" parent="." instance=ExtResource( 7 )]
+position = Vector2( 774.875, 525.386 )
+
+[node name="powerup_deflect" parent="." instance=ExtResource( 8 )]
+position = Vector2( 869.76, 320.779 )
+
+[node name="powerup_max_ammo" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1112.61, 525.386 )
+
+[node name="pathfinder" parent="." instance=ExtResource( 11 )]
+
+[node name="enemy_int" parent="." instance=ExtResource( 10 )]
+position = Vector2( 144.502, 513.143 )
+
+[node name="enemies" type="Node2D" parent="."]
+
+[node name="torret" parent="enemies" instance=ExtResource( 5 )]
+position = Vector2( 1432.8, 336.429 )
+
+[node name="torret2" parent="enemies" instance=ExtResource( 5 )]
+position = Vector2( 2019.06, 137.731 )
+
+[node name="torret3" parent="enemies" instance=ExtResource( 5 )]
+position = Vector2( 1429.47, 114.345 )
+
+[node name="torret4" parent="enemies" instance=ExtResource( 5 )]
+position = Vector2( 1751.09, 123.605 )
+
+[node name="torret5" parent="enemies" instance=ExtResource( 5 )]
+position = Vector2( 1647.89, 363.949 )
+
+[node name="enemy" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 8 )
+position = Vector2( 1497.07, 509.536 )
+
+[node name="enemy3" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 9 )
+position = Vector2( 1173.16, 514.803 )
+
+[node name="enemy2" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 10 )
+position = Vector2( 1338.5, 510.692 )
+
+[node name="enemy4" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 11 )
+position = Vector2( 545.233, 498.341 )
+
+[node name="enemy5" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 12 )
+position = Vector2( 1977.47, 512.193 )
+
+[node name="enemy6" parent="enemies" instance=ExtResource( 3 )]
+material = SubResource( 13 )
+position = Vector2( 882.602, 512.208 )
+
+[node name="boss" parent="enemies" instance=ExtResource( 12 )]
+position = Vector2( 3200.16, 139.719 )
+scale = Vector2( 0.2, 0.2 )

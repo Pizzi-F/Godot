@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/fato_shadow_-_wild_land.mp3-29f17b84f40d36923784d94456f31ebb.mp3str"
+
+[deps]
+
+source_file="res://assets/soundeffect/fato_shadow_-_wild_land.mp3"
+dest_files=[ "res://.import/fato_shadow_-_wild_land.mp3-29f17b84f40d36923784d94456f31ebb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

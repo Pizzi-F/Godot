@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/soundeffect/mixkit-game-gun-shot-1662.mp3" type="AudioStream" id=1]
+[ext_resource path="res://objects/gun_shot.gd" type="Script" id=2]
+
+[node name="gun_shot" type="AudioStreamPlayer"]
+stream = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[connection signal="finished" from="." to="." method="_on_gun_shot_finished"]
